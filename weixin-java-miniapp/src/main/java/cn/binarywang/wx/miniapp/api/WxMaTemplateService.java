@@ -1,9 +1,6 @@
 package cn.binarywang.wx.miniapp.api;
 
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateAddResult;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateLibraryGetResult;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateLibraryListResult;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateListResult;
+import cn.binarywang.wx.miniapp.bean.template.*;
 import me.chanjar.weixin.common.error.WxErrorException;
 
 import java.util.List;
@@ -33,6 +30,10 @@ public interface WxMaTemplateService {
    * 删除帐号下的某个模板.
    */
   String TEMPLATE_DEL_URL = "https://api.weixin.qq.com/cgi-bin/wxopen/template/del";
+
+  String SUBSCRIBE_ADD_TEMPLATE = "https://api.weixin.qq.com/wxaapi/newtmpl/addtemplate";
+
+  String SUBSCRIBE_TEMPLATE_KEY_WORDS_BY_ID = "https://api.weixin.qq.com/wxaapi/newtmpl/getpubtemplatekeywords";
 
   /**
    * <pre>
@@ -83,4 +84,24 @@ public interface WxMaTemplateService {
    * </pre>
    */
   boolean delTemplate(String templateId) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 获取订阅消息模板库某个模板标题下关键词库
+   *
+   * 详情请见: <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.getPubTemplateKeyWordsById.html>获取模板标题下的关键词列表</a>
+   * 接口url格式: https://api.weixin.qq.com/wxaapi/newtmpl/getpubtemplatekeywords?access_token=ACCESS_TOKEN
+   * </pre>
+   */
+  SubscribeTemplateLibryGetResult findPubTemplateKeyWordsById(String tid) throws WxErrorException;
+
+  /**
+   * <pre>
+   * 订阅消息组合模板并添加至帐号下的个人模板库
+   *
+   * 详情请见: <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/subscribe-message/subscribeMessage.addTemplate.html">获取小程序模板库标题列表</a>
+   * 接口url格式: https://api.weixin.qq.com/wxaapi/newtmpl/addtemplate?access_token=ACCESS_TOKEN
+   * </pre>
+   */
+  SubscribeTemplateAddResult addSubscribeTemplate(String tid, List<Integer> keywordIdList,String sceneDesc) throws WxErrorException;
 }

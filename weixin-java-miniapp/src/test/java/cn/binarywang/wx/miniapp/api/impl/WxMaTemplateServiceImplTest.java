@@ -1,10 +1,7 @@
 package cn.binarywang.wx.miniapp.api.impl;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateAddResult;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateLibraryGetResult;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateLibraryListResult;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateListResult;
+import cn.binarywang.wx.miniapp.bean.template.*;
 import cn.binarywang.wx.miniapp.test.ApiTestModule;
 import com.google.inject.Inject;
 import org.assertj.core.util.Lists;
@@ -66,5 +63,19 @@ public class WxMaTemplateServiceImplTest {
 
     //delete
     this.wxService.getTemplateService().delTemplate(result.getTemplateId());
+  }
+
+  @Test
+  public void testFindPubTemplateKeyWordsById() throws Exception {
+    SubscribeTemplateLibryGetResult result = this.wxService.getTemplateService().findPubTemplateKeyWordsById("3167");
+    Assert.assertEquals(3,result.getData().size() );
+  }
+
+  @Test
+  public void testAddSubscribeTemplate() throws Exception{
+    List<Integer> list = Lists.newArrayList(1,2,3);
+    SubscribeTemplateAddResult result = this.wxService.getTemplateService().addSubscribeTemplate("3167", list, "产品质保到期前提醒使用。");
+    Assert.assertNotNull(result.getPriTmplId());
+    System.out.println(result);
   }
 }

@@ -2,10 +2,7 @@ package cn.binarywang.wx.miniapp.api.impl;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.WxMaTemplateService;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateAddResult;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateLibraryGetResult;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateLibraryListResult;
-import cn.binarywang.wx.miniapp.bean.template.WxMaTemplateListResult;
+import cn.binarywang.wx.miniapp.bean.template.*;
 import com.google.common.collect.ImmutableMap;
 import lombok.AllArgsConstructor;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -54,5 +51,18 @@ public class WxMaTemplateServiceImpl implements WxMaTemplateService {
     Map<String, String> params = ImmutableMap.of("template_id", templateId);
     this.wxMaService.post(TEMPLATE_DEL_URL, WxGsonBuilder.create().toJson(params));
     return true;
+  }
+
+  @Override
+  public SubscribeTemplateLibryGetResult findPubTemplateKeyWordsById(String tid) throws WxErrorException {
+    String responseText = this.wxMaService.get(SUBSCRIBE_TEMPLATE_KEY_WORDS_BY_ID, "tid=" + tid);
+    return SubscribeTemplateLibryGetResult.fromJson(responseText);
+  }
+
+  @Override
+  public SubscribeTemplateAddResult addSubscribeTemplate(String tid, List<Integer> keywordIdList,String sceneDesc) throws WxErrorException {
+    String responseText = this.wxMaService.post(SUBSCRIBE_ADD_TEMPLATE, WxGsonBuilder.create().toJson(ImmutableMap.of("tid",
+      tid, "kidList", keywordIdList.toArray(), "sceneDesc", sceneDesc)));
+    return SubscribeTemplateAddResult.fromJson(responseText);
   }
 }
